@@ -32,7 +32,11 @@ PROTECTED_AUTH = object()
 
 def _CK_UTF8CHAR_to_str(data):
     """Convert CK_UTF8CHAR to string."""
-    return data.rstrip(b'\0').decode('utf-8').rstrip()
+    try:
+        str_data = data.decode('utf-8')
+    except UnicodeDecodeError:
+        str_data = data.decode('latin-1')
+    return str_data
 
 
 def _CK_VERSION_to_tuple(data):
